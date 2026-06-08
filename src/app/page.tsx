@@ -1,6 +1,8 @@
 import Hero from "@/components/sections/Hero";
 import StatsBar from "@/components/sections/StatsBar";
+import BrandsMarquee from "@/components/sections/BrandsMarquee";
 import WhyImport from "@/components/sections/WhyImport";
+import About from "@/components/sections/About";
 import CountriesStrip from "@/components/sections/CountriesStrip";
 import CarsShowcase from "@/components/sections/CarsShowcase";
 import WorldMap from "@/components/sections/WorldMap";
@@ -17,7 +19,9 @@ export default function Home() {
     <main>
       <Hero />
       <StatsBar />
+      <BrandsMarquee />
       <WhyImport />
+      <About />
       <CountriesStrip />
       <CarsShowcase limit={6} />
       <WorldMap />

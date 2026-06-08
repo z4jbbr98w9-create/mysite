@@ -3,6 +3,7 @@ import { Manrope, Sora, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import FloatingCTA from "@/components/shared/FloatingCTA";
 
 const manrope = Manrope({
   variable: "--font-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <FloatingCTA />
         <Footer />
       </body>
     </html>

@@ -5,11 +5,11 @@ import SectionHeading from "@/components/shared/SectionHeading";
 import Reveal from "@/components/shared/Reveal";
 
 // Points roughly placed on a 1000x500 equirectangular canvas
-const RUSSIA = { x: 560, y: 175, label: "Россия", flag: "🇷🇺" };
+const RUSSIA = { x: 560, y: 120, label: "Россия", flag: "🇷🇺" };
 const routes = [
-  { from: { x: 800, y: 230 }, label: "Корея", flag: "🇰🇷", color: "#e11d28" },
-  { from: { x: 510, y: 175 }, label: "Германия", flag: "🇩🇪", color: "#ff7a45" },
-  { from: { x: 770, y: 250 }, label: "Китай", flag: "🇨🇳", color: "#ffd000" },
+  { from: { x: 880, y: 175 }, label: "Корея", flag: "🇰🇷", color: "#e11d28" },
+  { from: { x: 330, y: 140 }, label: "Германия", flag: "🇩🇪", color: "#ff7a45" },
+  { from: { x: 800, y: 230 }, label: "Китай", flag: "🇨🇳", color: "#ffd000" },
 ];
 
 function curve(from: { x: number; y: number }, to: { x: number; y: number }) {
