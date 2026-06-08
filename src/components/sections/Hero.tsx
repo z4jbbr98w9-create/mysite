@@ -1,112 +1,142 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { ArrowRight, Star } from "lucide-react";
+import { company } from "@/lib/data";
 
-const badges = ["Claude Code", "Cursor", "Windsurf", "GitHub Copilot", "Codex"];
+const countries = ["Корея", "Германия", "Китай", "Япония"];
 
 export default function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-16 overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
-      </div>
-
-      {/* AI badges */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-wrap justify-center gap-2 mb-10"
-      >
-        {badges.map((badge, i) => (
-          <motion.span
-            key={badge}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 * i, duration: 0.4 }}
-            className="px-3 py-1.5 rounded-full border border-border bg-muted/50 text-xs text-muted-foreground"
-          >
-            {badge}
-          </motion.span>
-        ))}
-      </motion.div>
-
-      {/* Heading */}
-      <motion.h1
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.2 }}
-        className="text-5xl md:text-7xl font-bold tracking-tight max-w-4xl leading-tight"
-      >
-        Design{" "}
-        <span className="text-muted-foreground">Intelligence</span>
-      </motion.h1>
-
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.35 }}
-        className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed"
-      >
-        Searchable database of UI styles, color palettes, font pairings,
-        chart types, and UX guidelines. Build beautiful interfaces with
-        AI-powered design recommendations.
-      </motion.p>
-
-      {/* CLI prompt */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.5 }}
-        className="mt-10 bg-muted/60 border border-border rounded-xl px-6 py-4 font-mono text-sm text-muted-foreground flex items-center gap-3"
-      >
-        <span className="text-primary">$</span>
-        <span>uipro init --ai claude</span>
-        <motion.span
-          animate={{ opacity: [1, 0, 1] }}
-          transition={{ duration: 1, repeat: Infinity }}
-          className="w-2 h-4 bg-primary inline-block"
+    <section
+      ref={ref}
+      className="relative min-h-screen flex items-center overflow-hidden grain"
+    >
+      {/* Parallax background image */}
+      <motion.div style={{ scale }} className="absolute inset-0 -z-10">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2000&q=80')",
+          }}
         />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
       </motion.div>
 
-      {/* CTAs */}
+      {/* Glow */}
+      <div className="absolute top-1/4 -left-40 w-[500px] h-[500px] bg-accent/15 rounded-full blur-[120px] -z-10" />
+
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.65 }}
-        className="mt-8 flex flex-col sm:flex-row gap-4"
+        style={{ y, opacity }}
+        className="max-w-7xl mx-auto container-px w-full pt-20"
       >
-        <Button size="lg" className="gap-2">
-          How it Works <ArrowRight size={16} />
-        </Button>
-        <Button size="lg" variant="outline" className="gap-2">
-          <Sparkles size={16} /> View Demos
-        </Button>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border bg-graphite/60 backdrop-blur text-xs mb-8"
+        >
+          <span className="flex items-center gap-0.5 text-accent">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={12} fill="currentColor" />
+            ))}
+          </span>
+          <span className="text-muted-foreground">
+            {company.twogisRating} на 2ГИС · {company.reviewsCount} отзывов · с {company.since} года
+          </span>
+        </motion.div>
+
+        <h1 className="display-font text-5xl sm:text-6xl lg:text-8xl font-extrabold leading-[0.95] max-w-4xl text-balance">
+          <motion.span
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="block"
+          >
+            Импорт
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="block gradient-accent"
+          >
+            автомобилей
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="block text-3xl sm:text-4xl lg:text-5xl font-light mt-3 text-muted-foreground"
+          >
+            из{" "}
+            {countries.map((c, i) => (
+              <span key={c}>
+                <span className="text-foreground font-semibold">{c}</span>
+                {i < countries.length - 1 && <span className="text-accent"> · </span>}
+              </span>
+            ))}
+          </motion.span>
+        </h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="mt-8 text-lg text-muted-foreground max-w-xl leading-relaxed"
+        >
+          Подбираем, проверяем, доставляем и оформляем автомобиль под ключ.
+          Прозрачная цена в договоре — без скрытых платежей.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="mt-10 flex flex-col sm:flex-row gap-4"
+        >
+          <Link
+            href="/calculator"
+            className="group inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-accent text-white font-semibold hover:bg-accent-soft transition-all hover:gap-3"
+          >
+            Получить расчёт
+            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+          </Link>
+          <Link
+            href="/catalog"
+            className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl border border-border bg-graphite/40 backdrop-blur font-semibold hover:border-accent/50 transition-colors"
+          >
+            Смотреть каталог
+          </Link>
+        </motion.div>
       </motion.div>
 
-      {/* Stats */}
+      {/* Scroll cue */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-        className="mt-20 grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground"
       >
-        {[
-          { n: "57", label: "UI Styles" },
-          { n: "95", label: "Color Palettes" },
-          { n: "56", label: "Font Pairings" },
-          { n: "8", label: "Tech Stacks" },
-          { n: "24", label: "Chart Types" },
-          { n: "29", label: "Landing Patterns" },
-        ].map(({ n, label }) => (
-          <div key={label} className="flex flex-col items-center gap-1">
-            <span className="text-3xl font-bold text-primary">{n}</span>
-            <span className="text-xs text-muted-foreground">{label}</span>
-          </div>
-        ))}
+        <span className="text-[10px] uppercase tracking-[0.2em]">Листайте</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity }}
+          className="w-px h-8 bg-gradient-to-b from-accent to-transparent"
+        />
       </motion.div>
     </section>
   );
